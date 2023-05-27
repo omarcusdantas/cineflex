@@ -1,30 +1,42 @@
-import styled from "styled-components"
+import styled from "styled-components";
+import { useParams } from 'react-router-dom';
+import axios from "axios";
+import React from "react";
+import SeatItem from "../../components/SeatItem"
 
 export default function SeatsPage() {
+    const { idSession } = useParams();
+    axios.defaults.headers.common["Authorization"] = "iEdc61mkRad7o79TwQ6jAJSe";
+    const [session, setSession] = React.useState({seats: []});
+
+    React.useEffect(() => {
+		axios
+            .get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSession}/seats`)
+            .then(response => {setSession(response.data); console.log(response.data)})
+            .catch((error) => console.log(error));
+	}, []);
 
     return (
         <PageContainer>
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-                <SeatItem>01</SeatItem>
-                <SeatItem>02</SeatItem>
-                <SeatItem>03</SeatItem>
-                <SeatItem>04</SeatItem>
-                <SeatItem>05</SeatItem>
+                {session.seats.map((seat, index) => (
+                    <SeatItem seat={seat} key={index}></SeatItem>
+                ))}
             </SeatsContainer>
 
             <CaptionContainer>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle status="selected"/>
                     Selecionado
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle status="available"/>
                     Disponível
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle status="unavailable"/>
                     Indisponível
                 </CaptionItem>
             </CaptionContainer>
@@ -65,15 +77,7 @@ const PageContainer = styled.div`
     padding-bottom: 120px;
     padding-top: 70px;
 `
-const SeatsContainer = styled.div`
-    width: 330px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-`
+
 const FormContainer = styled.div`
     width: calc(100vw - 40px); 
     display: flex;
@@ -88,43 +92,7 @@ const FormContainer = styled.div`
         width: calc(100vw - 60px);
     }
 `
-const CaptionContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    width: 300px;
-    justify-content: space-between;
-    margin: 20px;
-`
-const CaptionCircle = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 5px 3px;
-`
-const CaptionItem = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 12px;
-`
-const SeatItem = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    font-family: 'Roboto';
-    font-size: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 5px 3px;
-`
+
 const FooterContainer = styled.div`
     width: 100%;
     height: 120px;
@@ -162,4 +130,61 @@ const FooterContainer = styled.div`
             }
         }
     }
+`
+
+const SeatsContainer = styled.div`
+    width: 330px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+`
+
+const CaptionContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    justify-content: space-between;
+    margin: 20px;
+`
+
+const CaptionItem = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+`
+
+const CaptionCircle = styled.div`
+    border: 1px solid ${props => {
+        switch (props.status) {
+            case "available":
+                return "#7B8B99";
+            case "selected":
+                return "#0E7D71";
+            default:
+                return "#F7C52B";
+        }
+    }};
+    background-color: ${props => {
+        switch (props.status) {
+            case "available":
+                return "#C3CFD9";
+            case "selected":
+                return "#1AAE9E";
+            default:
+                return "#FBE192";
+        }
+    }};
+    height: 25px;
+    width: 25px;
+    border-radius: 25px;
+    font-family: 'Roboto';
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 3px;
 `

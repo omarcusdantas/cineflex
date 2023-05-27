@@ -12,7 +12,7 @@ export default function SessionsPage() {
     React.useEffect(() => {
 		axios
             .get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idMovie}/showtimes`)
-            .then(response => {setMovie(response.data); console.log(response.data)})
+            .then(response => {setMovie(response.data)})
             .catch((error) => console.log(error));
 	}, []);
 
