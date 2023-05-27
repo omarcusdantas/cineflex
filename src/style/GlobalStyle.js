@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components"
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
 	button {
 		height: 43px;
 		background: #E8833A;
@@ -36,5 +36,3 @@ const GlobalStyle = createGlobalStyle`
 		
 	}
 `
-
-export default GlobalStyle
