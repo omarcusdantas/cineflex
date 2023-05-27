@@ -17,6 +17,7 @@ export const GlobalStyle = createGlobalStyle`
 		&:disabled {
 			background-color: lightgray;
 		}
+		cursor: pointer;
 	}
 	input {
 		background: #FFFFFF;

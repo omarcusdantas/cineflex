@@ -20,7 +20,7 @@ export default function HomePage() {
 
             <ListContainer>
                 {movies.map((movie, index) => (
-                        <MovieContainer key={index} id={movie.id} title={movie.title} img={movie.posterURL}></MovieContainer>
+                        <MovieContainer key={index} movieInfo={movie}></MovieContainer>
                 ))}
             </ListContainer>
 
