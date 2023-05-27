@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import React from "react";
 
-export default function SeatItem({seat}) {
+export default function SeatItem({seat, handleClick}) {
     const [status, setStatus] = React.useState(seat.isAvailable? "available" : "unavailable");
 
     function selectSeat() {
@@ -10,10 +10,12 @@ export default function SeatItem({seat}) {
             return;
         }
         else if (status === "available") {
-            setStatus("selected")
+            setStatus("selected");
+            handleClick({id: seat.id, name: seat.name});
             return;
         }
         setStatus("available");
+        handleClick({id: seat.id, name:seat.name});
     }
 
     return (

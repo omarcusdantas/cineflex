@@ -1,6 +1,21 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components"
 
-export default function SuccessPage() {
+export default function SuccessPage({orderInfo, setOrderInfo}) {
+    const navigate = useNavigate();
+    
+    function formatCPF(cpf) {
+        const cpfDigits = cpf.toString().padStart(11, "0");
+        const formattedCPF = `${cpfDigits.slice(0, 3)}.${cpfDigits.slice(3, 6)}.${cpfDigits.slice(6, 9)}-${cpfDigits.slice(9)}`;
+        return formattedCPF;
+    }
+
+    function formatSeatNumber(seat) {
+        if (seat.length < 2) {
+            return seat.padStart(2, "0");
+          }
+        return seat;
+    }
 
     return (
         <PageContainer>
@@ -8,24 +23,24 @@ export default function SuccessPage() {
 
             <TextContainer>
                 <strong><p>Filme e sessão</p></strong>
-                <p>Tudo em todo lugar ao mesmo tempo</p>
-                <p>03/03/2023 - 14:00</p>
+                <p>{orderInfo.session.movie.title}</p>
+                <p>{orderInfo.session.day.date} - {orderInfo.session.name}</p>
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Ingressos</p></strong>
-                <p>Assento 01</p>
-                <p>Assento 02</p>
-                <p>Assento 03</p>
+                {orderInfo.seats.map((seat, index) => (
+                    <p key={index}>Assento {formatSeatNumber(seat)}</p>
+                ))}
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Comprador</p></strong>
-                <p>Nome: Letícia Chijo</p>
-                <p>CPF: 123.456.789-10</p>
+                <p>Nome: {orderInfo.name}</p>
+                <p>CPF: {formatCPF(orderInfo.cpf)}</p>
             </TextContainer>
 
-            <button>Voltar para Home</button>
+            <button onClick={() => {setOrderInfo({}); navigate("/")}}>Voltar para Home</button>
         </PageContainer>
     )
 }

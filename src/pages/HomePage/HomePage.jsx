@@ -4,7 +4,6 @@ import React from "react";
 import MovieContainer from "../../components/MovieContainer"
 
 export default function HomePage() {
-    axios.defaults.headers.common["Authorization"] = "iEdc61mkRad7o79TwQ6jAJSe";
     const [movies, setMovies] = React.useState([]);
 
     React.useEffect(() => {

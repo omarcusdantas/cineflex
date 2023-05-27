@@ -3,18 +3,36 @@ import { useParams } from 'react-router-dom';
 import axios from "axios";
 import React from "react";
 import SeatItem from "../../components/SeatItem"
+import BuyForm from "../../components/BuyForm"
+import Footer from "../../components/Footer"
 
-export default function SeatsPage() {
+export default function SeatsPage({setOrderInfo}) {
     const { idSession } = useParams();
-    axios.defaults.headers.common["Authorization"] = "iEdc61mkRad7o79TwQ6jAJSe";
     const [session, setSession] = React.useState({seats: []});
+    const [seatsToBuy, setSeatsToBuy] = React.useState({names: [], ids: []});
 
     React.useEffect(() => {
 		axios
             .get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSession}/seats`)
-            .then(response => {setSession(response.data); console.log(response.data)})
+            .then(response => {setSession(response.data)})
             .catch((error) => console.log(error));
 	}, []);
+
+    function manageSeats(seat) {
+        const indexToRemove = seatsToBuy.ids.indexOf(seat);
+        if (indexToRemove !== -1) {
+            const updatedIds = [...seatsToBuy.ids];
+            const updatedNames = [...seatsToBuy.names];
+            updatedIds.splice(indexToRemove, 1);
+            updatedNames.splice(indexToRemove, 1);
+            setSeatsToBuy({ names: updatedNames, ids: updatedIds });
+            return;
+        }
+        setSeatsToBuy({
+            names: [...seatsToBuy.names, seat.name],
+            ids: [...seatsToBuy.ids, seat.id],
+        });
+      }
 
     return (
         <PageContainer>
@@ -22,7 +40,7 @@ export default function SeatsPage() {
 
             <SeatsContainer>
                 {session.seats.map((seat, index) => (
-                    <SeatItem seat={seat} key={index}></SeatItem>
+                    <SeatItem seat={seat} key={index} handleClick={manageSeats}></SeatItem>
                 ))}
             </SeatsContainer>
 
@@ -41,25 +59,13 @@ export default function SeatsPage() {
                 </CaptionItem>
             </CaptionContainer>
 
-            <FormContainer>
-                Nome do Comprador:
-                <input placeholder="Digite seu nome..." />
+            <BuyForm 
+                seatsList={seatsToBuy} 
+                setOrderInfo={setOrderInfo}
+                sessionInfo={session}
+            ></BuyForm>
 
-                CPF do Comprador:
-                <input placeholder="Digite seu CPF..." />
-
-                <button>Reservar Assento(s)</button>
-            </FormContainer>
-
-            <FooterContainer>
-                <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
-                </div>
-                <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
-                    <p>Sexta - 14h00</p>
-                </div>
-            </FooterContainer>
+            <Footer movieInfo={session.movie} session={{time: session.name, day: session.day}}></Footer>
 
         </PageContainer>
     )
@@ -76,60 +82,6 @@ const PageContainer = styled.div`
     margin-top: 30px;
     padding-bottom: 120px;
     padding-top: 70px;
-`
-
-const FormContainer = styled.div`
-    width: calc(100vw - 40px); 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 20px 0;
-    font-size: 18px;
-    button {
-        align-self: center;
-    }
-    input {
-        width: calc(100vw - 60px);
-    }
-`
-
-const FooterContainer = styled.div`
-    width: 100%;
-    height: 120px;
-    background-color: #C3CFD9;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: 20px;
-    position: fixed;
-    bottom: 0;
-
-    div:nth-child(1) {
-        box-shadow: 0px 2px 4px 2px #0000001A;
-        border-radius: 3px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: white;
-        margin: 12px;
-        img {
-            width: 50px;
-            height: 70px;
-            padding: 8px;
-        }
-    }
-
-    div:nth-child(2) {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        p {
-            text-align: left;
-            &:nth-child(2) {
-                margin-top: 10px;
-            }
-        }
-    }
 `
 
 const SeatsContainer = styled.div`
