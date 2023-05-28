@@ -4,7 +4,7 @@ export default function Footer({movieInfo, session}) {
     return (
         <>
             { movieInfo &&
-                <FooterContainer>
+                <FooterContainer data-test="footer">
                     <div>
                         <img src={movieInfo.posterURL} alt={movieInfo.title} />
                     </div>

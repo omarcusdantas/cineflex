@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 
 export default function SessionContainer({sessionInfo}) { 
     return (
-        <Container>
+        <Container data-test="movie-day">
             {sessionInfo.weekday} - {sessionInfo.date}
             <ButtonsContainer>
                 {sessionInfo.showtimes.map((time, index) => (
                     <Link to={`/assentos/${time.id}`} key={index}>
-                        <button>{time.name}</button>
+                        <button data-test="showtime">{time.name}</button>
                     </Link>
                 ))}
             </ButtonsContainer>

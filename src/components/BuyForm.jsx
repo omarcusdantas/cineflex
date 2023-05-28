@@ -31,6 +31,7 @@ export default function BuyForm({seatsList, setOrderInfo, sessionInfo}) {
                     required 
                     onChange={(event) => setInputName(event.target.value)}
                     value={inputName}
+                    data-test="client-name"
                 />
 
                 CPF do Comprador:
@@ -43,9 +44,10 @@ export default function BuyForm({seatsList, setOrderInfo, sessionInfo}) {
                     required
                     onChange={(event) => setInputCpf(event.target.value)}
                     value={inputCpf}
+                    data-test="client-cpf"
                 />
 
-                <button type="submit">Reservar Assento(s)</button>
+                <button type="submit" data-test="book-seat-btn">Reservar Assento(s)</button>
             </form>
         </FormContainer>
     ) 

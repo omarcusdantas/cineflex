@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function MovieContainer({movieInfo}) { 
     return (
-        <Container>
+        <Container data-test="movie">
             <Link to={`/sessoes/${movieInfo.id}`}>
                 <img src={movieInfo.posterURL} alt={movieInfo.title} />
             </Link>

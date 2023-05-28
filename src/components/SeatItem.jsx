@@ -19,7 +19,7 @@ export default function SeatItem({seat, handleClick}) {
     }
 
     return (
-        <Container status={status} onClick={selectSeat}>
+        <Container status={status} onClick={selectSeat} data-test="seat">
             {seat.name}
         </Container>
     ) 
