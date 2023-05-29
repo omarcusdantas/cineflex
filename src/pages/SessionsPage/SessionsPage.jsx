@@ -1,20 +1,22 @@
-import styled from "styled-components"
-import { useParams } from 'react-router-dom';
-import axios from "axios";
+import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import React from "react";
-import SessionContainer from "../../components/SessionContainer"
-import Footer from "../../components/Footer"
+import SessionContainer from "../../components/SessionContainer";
+import Footer from "../../components/Footer";
+import axios from "axios";
 
 export default function SessionsPage() {
     const { idMovie } = useParams();
-    const [movie, setMovie] = React.useState({days: []});
+    const [movie, setMovie] = React.useState({ days: [] });
 
     React.useEffect(() => {
-		axios
+        axios
             .get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idMovie}/showtimes`)
-            .then(response => {setMovie(response.data);})
+            .then((response) => {
+                setMovie(response.data);
+            })
             .catch((error) => console.log(error));
-	}, []);
+    }, []);
 
     return (
         <PageContainer>
@@ -24,17 +26,16 @@ export default function SessionsPage() {
                     <SessionContainer key={index} sessionInfo={day}></SessionContainer>
                 ))}
             </div>
-
+            
             <Footer movieInfo={movie}></Footer>
-
         </PageContainer>
-    )
+    );
 }
 
 const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     font-size: 24px;
     text-align: center;
     color: #293845;
@@ -44,4 +45,4 @@ const PageContainer = styled.div`
     div {
         margin-top: 20px;
     }
-`
+`;

@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components"
+import { createGlobalStyle } from "styled-components";
 
 export const ResetStyle = createGlobalStyle`
     html, body, div, span, applet, object, iframe,
@@ -44,4 +44,4 @@ export const ResetStyle = createGlobalStyle`
 		border-collapse: collapse;
 		border-spacing: 0;
 	}
-`
+`;

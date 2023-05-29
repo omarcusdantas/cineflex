@@ -1,42 +1,43 @@
-import styled from "styled-components"
+import styled from "styled-components";
 import React from "react";
 
-export default function SeatItem({seat, handleClick}) {
-    const [status, setStatus] = React.useState(seat.isAvailable? "available" : "unavailable");
+export default function SeatItem({ seat, handleClick }) {
+    const [status, setStatus] = React.useState(seat.isAvailable ? "available" : "unavailable");
 
     function selectSeat() {
         if (status === "unavailable") {
             alert("Esse assento não está disponível");
             return;
-        }
-        else if (status === "available") {
+        } else if (status === "available") {
             setStatus("selected");
-            handleClick({id: seat.id, name: seat.name});
+            handleClick({ id: seat.id, name: seat.name });
             return;
         }
+        
         setStatus("available");
-        handleClick({id: seat.id, name:seat.name});
+        handleClick({ id: seat.id, name: seat.name });
     }
 
     return (
         <Container status={status} onClick={selectSeat} data-test="seat">
             {seat.name}
         </Container>
-    ) 
+    );
 }
 
 const Container = styled.div`
-    border: 1px solid ${props => {
-        switch (props.status) {
-            case "available":
-                return "#7B8B99";
-            case "selected":
-                return "#0E7D71";
-            default:
-                return "#F7C52B";
-        }
-    }};
-    background-color: ${props => {
+    border: 1px solid
+        ${(props) => {
+            switch (props.status) {
+                case "available":
+                    return "#7B8B99";
+                case "selected":
+                    return "#0E7D71";
+                default:
+                    return "#F7C52B";
+            }
+        }};
+    background-color: ${(props) => {
         switch (props.status) {
             case "available":
                 return "#C3CFD9";
@@ -46,14 +47,14 @@ const Container = styled.div`
                 return "#FBE192";
         }
     }};
-    cursor: ${props => (props.status === "unavailable" ? "default" : "pointer")};
+    cursor: ${(props) => (props.status === "unavailable" ? "default" : "pointer")};
     height: 25px;
     width: 25px;
     border-radius: 25px;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     font-size: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 5px 3px;
-`
+`;

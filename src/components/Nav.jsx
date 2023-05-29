@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import arrowBtn from "../arrow-btn.png"
+import arrowBtn from "../arrow-btn.png";
 import { useNavigate } from "react-router-dom";
 
 export default function Nav() {
@@ -7,17 +7,12 @@ export default function Nav() {
 
     return (
         <NavContainer>
-            {window.location.pathname !== '/' &&
-                    <img
-                        data-test="go-home-header-btn"
-                        onClick={() => navigate(-1)}
-                        src={arrowBtn}
-                        alt="Return" 
-                    />
-            }
+            {window.location.pathname !== "/" && (
+                <img data-test="go-home-header-btn" onClick={() => navigate(-1)} src={arrowBtn} alt="Return" />
+            )}
             CINEFLEX
         </NavContainer>
-    )
+    );
 }
 
 const NavContainer = styled.div`
@@ -26,15 +21,15 @@ const NavContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #C3CFD9;
-    color: #E8833A;
-    font-family: 'Roboto', sans-serif;
+    background-color: #c3cfd9;
+    color: #e8833a;
+    font-family: "Roboto", sans-serif;
     font-size: 34px;
     position: fixed;
     top: 0;
     a {
         text-decoration: none;
-        color: #E8833A;
+        color: #e8833a;
     }
 
     img {
@@ -43,4 +38,4 @@ const NavContainer = styled.div`
         left: 20px;
         cursor: pointer;
     }
-`
+`;
